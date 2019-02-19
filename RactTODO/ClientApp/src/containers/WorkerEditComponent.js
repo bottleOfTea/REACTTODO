@@ -1,35 +1,51 @@
-import React, {Component} from 'react'
-import WorkerForm from './WorkerForm'
-import {withRouter} from "react-router-dom";
-import {connect} from "react-redux";
-import {WorkList} from "../components/worker";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
+import { reduxForm } from 'redux-form';
+import WorkFormTemplate from '../components/worker/WorkFormTemplate';
+import { getWorker } from '../reducers';
+import { compose } from 'redux';
+import { editWorker } from '../actions/workers';
+import { withRouter } from 'react-router-dom'
 
 class WorkerEditComponent extends Component {
-    submit = values => {
-        // print the form values to the console
-        console.log(values)
+    constructor(props) {
+        super(props);
+        this.onEdit = this.onEdit.bind(this);
+
     }
 
-    /*    render() {
-            const {id} = this.props;
-            return (
-                <WorkerForm onSubmit={this.submit}/>
-            )
-        }*/
+    componentWillMount() {
+    }
+
+    onEdit(values) {
+        const { editWorker, history } = this.props;
+        editWorker(values).then(() => { history.push('/workers'); });
+    }
+
     render() {
-        const {id} = this.props;
+        const onSubmit = this.props.workId ? this.onEdit : this.onEdit;
         return (
-            <WorkerForm/>
+            <div>
+                <h2>Edit User </h2>
+                <WorkFormTemplate onSubmit={onSubmit} {...this.props} />
+            </div>
         );
     }
 }
 
-
 const mapStateToProps = (state, ownerProps) => {
-    const id = ownerProps.match.params.workId;
+    const workId = ownerProps.match.params.workId;
     return {
-        id
-    }
+        initialValues: getWorker(state, workId),
+        workId
+    };
 };
 
-export default withRouter(connect(mapStateToProps)(WorkerEditComponent))
+export default compose(
+    withRouter,
+    connect(mapStateToProps, { editWorker }),
+    reduxForm({
+        form: 'workerEdit',
+        enableReinitialize: true
+    })
+)(WorkerEditComponent);

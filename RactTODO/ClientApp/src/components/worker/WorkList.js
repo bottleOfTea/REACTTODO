@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import WorkItem from "./WorkItem";
-import {Grid} from 'react-bootstrap';
 
-export const WorkList = ({workers}) => (
+const WorkList = ({ workers, deleteWorker }) => (
     <table className="table table-hover">
         <thead>
         <tr>
@@ -12,14 +11,16 @@ export const WorkList = ({workers}) => (
         </tr>
         </thead>
         <tbody>
-        {workers.map(worker => WorkItem({...worker}))}
+        {workers.map(worker => WorkItem({ ...worker, deleteWorker}))}
         </tbody>
     </table>
 );
 
 WorkList.propTypes = {
-    workers: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-    }).isRequired,
+    workers: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired
+    })).isRequired,
+    deleteWorker: PropTypes.func.isRequired
 };
 
+export default WorkList;

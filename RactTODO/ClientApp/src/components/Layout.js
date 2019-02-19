@@ -1,11 +1,14 @@
 import React from 'react';
 import NavMenu from './NavMenu';
+import ErrorContainer from '../containers/ErrorContainer'
 
-export default props => (
+const Layout = props => (
     <React.Fragment>
         <NavMenu />
-        <div className="container">
+        <ErrorContainer>
             {props.children}
-        </div>
+        </ErrorContainer>
     </React.Fragment>
 );
+
+export default Layout;

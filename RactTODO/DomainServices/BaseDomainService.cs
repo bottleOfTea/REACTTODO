@@ -6,66 +6,67 @@ using RactTODO.Entities.Interfaces;
 
 namespace RactTODO.DomainServices
 {
-    public abstract class BaseDomainService<TEntity> : IBaseDomainService<TEntity> where TEntity : IHasId
+    public abstract class BaseDomainService<TEntity> : IBaseDomainService<TEntity> where TEntity : IHasId, new()
     {
         public virtual IEnumerable<TEntity> GetAll()
         {
             return new List<TEntity>();
         }
 
-        public void Save(TEntity entity)
+        public TEntity Save(TEntity entity)
         {
-            Save(new[] {entity});
+            return Save(new[] {entity}).First();
         }
 
-        public void Save(params TEntity[] entities)
+        public IEnumerable<TEntity> Save(params TEntity[] entities)
         {
             var list = new List<TEntity>();
             foreach (var entity in entities)
             {
                 InternSave(entity);
                 list.Add(entity);
+                yield return entity;
             }
         }
 
-        public virtual void InternSave(TEntity entity)
+        protected virtual void InternSave(TEntity entity)
         {
         }
 
         public virtual TEntity Get(long id)
         {
-            return new List<TEntity>().Find(entity => entity.Id == id);
+            return new List<TEntity>() {new TEntity() {Id = id}}.Find(entity => entity.Id == id);
         }
 
-        public void Remove(long id)
+        public TEntity Remove(long id)
         {
-            var en = Get(id);
-            if (en == null)
-                return;
+            return Remove(new[] {id}).First();
         }
 
-        public void Remove(params long[] ids)
+        public IEnumerable<TEntity> Remove(params long[] ids)
         {
             foreach (var id in ids)
             {
-                Remove(id);
+                var en = Get(id);
+                yield return en;
             }
         }
 
-        public void Edit(TEntity entity)
+        public TEntity Edit(TEntity entity)
         {
-            Edit(new[] {entity});
+            return Edit(new[] {entity}).First();
         }
 
-        public void Edit(params TEntity[] entities)
+        public IEnumerable<TEntity> Edit(params TEntity[] entities)
         {
             foreach (var entity in entities)
             {
                 InternEdit(entity);
+                yield return entity;
             }
         }
 
-        public virtual void InternEdit(TEntity entity)
+        protected virtual void InternEdit(TEntity entity)
         {
         }
     }

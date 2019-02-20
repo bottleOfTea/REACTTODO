@@ -4,8 +4,10 @@ import { reduxForm } from 'redux-form';
 import WorkFormTemplate from '../components/worker/WorkFormTemplate';
 import { getWorker } from '../reducers';
 import { compose } from 'redux';
-import { editWorker } from '../actions/workers';
-import { withRouter } from 'react-router-dom'
+import { editWorker } from '../actions/actionCreaters';
+import { withRouter } from 'react-router-dom';
+import { loadWorkers } from '../actions/actionCreaters'
+import { getWorkers } from '../reducers'
 
 class WorkerEditComponent extends Component {
     constructor(props) {
@@ -15,6 +17,7 @@ class WorkerEditComponent extends Component {
     }
 
     componentWillMount() {
+        this.props.loadWorkers(this.props);
     }
 
     onEdit(values) {
@@ -37,13 +40,15 @@ const mapStateToProps = (state, ownerProps) => {
     const workId = ownerProps.match.params.workId;
     return {
         initialValues: getWorker(state, workId),
+        isLoading: state.workers.isLoading,
+        workers: getWorkers(state),
         workId
     };
 };
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, { editWorker }),
+    connect(mapStateToProps, { editWorker, loadWorkers }),
     reduxForm({
         form: 'workerEdit',
         enableReinitialize: true

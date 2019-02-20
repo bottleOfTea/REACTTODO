@@ -1,23 +1,37 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { loadWorkers, deleteWorker } from '../actions/workers'
-import  WorkList from '../components/worker/WorkList'
-import {getWorkers} from '../reducers/'
+import {withRouter} from 'react-router-dom'
+import {loadWorkers, deleteWorker, getWorkers as update} from '../actions/actionCreaters'
+import WorkList from '../components/worker/WorkList'
+import {getWorkers} from '../reducers'
+import {bindActionCreators} from 'redux'
 
 class WorkersContainer extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleClick = this.handleClick.bind(this)
+    }
 
     componentDidMount() {
         this.props.loadWorkers(this.props);
     }
 
+    handleClick = () => {
+        this.props.update()
+    }
+
     render() {
-        const { workers, isLoading, deleteWorker} = this.props;
+
+        const {workers, isLoading, deleteWorker} = this.props;
         return (
             <div>
-                <h1>Workers</h1>
-                {isLoading ? <span>Loading...</span> : <WorkList workers={workers} deleteWorker={deleteWorker}/>}
+                <h1 >Workers</h1>
+                <button onClick={this.handleClick} className="btn btn-info">Update</button>
+                {(isLoading && workers.length === 0) ? <span>Loading...</span> :
+                    (!isLoading && workers.length === 0) ? <h2>No workers to display</h2> :
+                        <WorkList workers={workers} deleteWorker={deleteWorker}/>}
             </div>
         );
     }
@@ -36,4 +50,10 @@ const mapStateToProps = (state, ownerProps) => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, { loadWorkers, deleteWorker})(WorkersContainer))
+const mapDispatchToProps = dispatch => ({
+    update: bindActionCreators(update, dispatch),
+    loadWorkers: bindActionCreators(loadWorkers, dispatch),
+    deleteWorker: bindActionCreators(deleteWorker, dispatch)
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(WorkersContainer))

@@ -9,7 +9,7 @@ const email = value =>
         'Invalid email address' : undefined
 
 const WorkerFormTemplate = props => {
-    const { handleSubmit, onSubmit, pristine, reset, submitting } = props;
+    const { handleSubmit, onSubmit, pristine, submitting } = props;
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='form-horizontal'>
             <Field

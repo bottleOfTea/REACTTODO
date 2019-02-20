@@ -36,24 +36,21 @@ namespace RactTODO.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(TEntity entity)
+        public IActionResult Edit([FromBody]TEntity entity)
         {
-            DomainService.Edit(entity);
-            return Ok();
+            return Ok(DomainService.Edit(entity));
         }
 
         [HttpPost]
-        public IActionResult Create(TEntity entity)
+        public IActionResult Create([FromBody]TEntity entity)
         {
-            DomainService.Save(entity);
-            return Ok();
+            return Ok( DomainService.Save(entity));
         }
 
         [HttpDelete]
         public IActionResult Remove(long id)
         {
-            DomainService.Remove(id);
-            return Ok();
+            return Ok(DomainService.Remove(id));
         }
     }
 }

@@ -6,12 +6,12 @@ namespace RactTODO.DomainServices.Interfaces
     public interface IBaseDomainService<TEntity>
     {
         IEnumerable<TEntity> GetAll();
-        void Save(TEntity entity);
-        void Save(params TEntity[] entities);
+        TEntity Save(TEntity entity);
+        IEnumerable<TEntity> Save(params TEntity[] entities);
         TEntity Get(long id);
-        void Remove(long id);
-        void Remove(params long[] ids);
-        void Edit(TEntity entity);
-        void Edit(params TEntity[] entities);
+        TEntity Remove(long id);
+        IEnumerable<TEntity>  Remove(params long[] ids);
+        TEntity Edit(TEntity entity);
+        IEnumerable<TEntity> Edit(params TEntity[] entities);
     }
 }

@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RactTODO.DomainServices;
 using RactTODO.DomainServices.Interfaces;
-using RactTODO.ViewModels;
-using RactTODO.ViewModels.Interfaces;
+using RactTODO.ViewServices;
+using RactTODO.ViewServices.Interfaces;
 
 namespace RactTODO
 {
@@ -65,7 +65,7 @@ namespace RactTODO
 
         private void ConfigDependencies(IServiceCollection services)
         {
-            services.AddScoped<IWorkerViewModel, WorkerViewModel>();
+            services.AddScoped<IWorkerViewService, WorkerViewService>();
             services.AddScoped<IWorkerDomainService, WorkerDomainService>();
         }
     }

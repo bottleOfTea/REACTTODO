@@ -3,7 +3,7 @@ using RactTODO.Entities;
 
 namespace RactTODO.DomainServices
 {
-    public class WorkerDomainService : BaseDomainService<Worker>, IWorkerDomainService
+    internal class WorkerDomainService : BaseDomainService<Worker>, IWorkerDomainService
     {
     }
 }

@@ -1,6 +1,6 @@
-namespace RactTODO.DTOs
+namespace RactTODO.ViewModels
 {
-    public class WorkerDto
+    public class WorkerViewModel
     {
         public long Id { get; set; }
 

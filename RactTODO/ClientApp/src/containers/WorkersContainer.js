@@ -29,7 +29,7 @@ class WorkersContainer extends Component {
             <div>
                 <h1 >Workers</h1>
                 <button onClick={this.handleClick} className="btn btn-info">Update</button>
-                {(isLoading && workers.length === 0) ? <span>Loading...</span> :
+                {(isLoading && workers.length === 0) ? <h2>Loading...</h2> :
                     (!isLoading && workers.length === 0) ? <h2>No workers to display</h2> :
                         <WorkList workers={workers} deleteWorker={deleteWorker}/>}
             </div>

@@ -6,7 +6,7 @@ using RactTODO.Entities.Interfaces;
 
 namespace RactTODO.DomainServices
 {
-    public abstract class BaseDomainService<TEntity> : IBaseDomainService<TEntity> where TEntity : IHasId, new()
+    internal abstract class BaseDomainService<TEntity> : IBaseDomainService<TEntity> where TEntity : IHasId, new()
     {
         public virtual IEnumerable<TEntity> GetAll()
         {
